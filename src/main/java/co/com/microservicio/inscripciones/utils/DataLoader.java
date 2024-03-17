@@ -25,7 +25,7 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.info("starting");
 
-        ResponseDTO result = this.webClientBuilder.build()
+        /*ResponseDTO result = this.webClientBuilder.build()
                 .get()
                 .uri(baseUrl + "event")
                 .retrieve()
@@ -40,6 +40,7 @@ public class DataLoader implements CommandLineRunner {
         }
 
         this.inscriptionService.multipleSaveNewEvents(events);
+        */
         log.info("data loaded");
     }
 }
