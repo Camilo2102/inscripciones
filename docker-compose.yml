@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: event_db
+      POSTGRES_USER: db_admin
+      POSTGRES_PASSWORD: uR3pX9GcE5vMhZaW
+    ports:
+      - "5439:5432"

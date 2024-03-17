@@ -1,4 +1,4 @@
-package com.example.tallerelectiva.exeptions;
+package co.com.microservicio.inscripciones.exeptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatusCode;
 /**
  * Clase de excepción personalizada para representar errores HTTP.
  *
- * @author Camilo Muñoz
+ * @author Sebastian Garzon
  * @see HttpStatusCode
  * @see Throwable
  * @since 1.3-SNAPSHOT

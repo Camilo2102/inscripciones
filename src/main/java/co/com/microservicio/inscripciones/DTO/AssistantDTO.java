@@ -1,2 +1,21 @@
-package co.com.microservicio.inscripciones.DTO;public class AssistantDTO {
+package co.com.microservicio.inscripciones.DTO;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class AssistantDTO {
+
+    private Integer id;
+
+    private String name;
+
+    private String email;
+
+    private EventDTO event;
 }

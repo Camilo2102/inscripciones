@@ -1,7 +1,7 @@
-package com.example.tallerelectiva.handler;
+package co.com.microservicio.inscripciones.handler;
 
 
-import com.example.tallerelectiva.exeptions.HttpException;
+import co.com.microservicio.inscripciones.exeptions.HttpException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Clase de manejo de excepciones global para manejar instancias de HttpException en toda la aplicación.
  *
- * @author Camilo Muñoz
+ * @author Sebastian Garzon
  * @see HttpException
  * @see ExceptionHandler
  * @see ControllerAdvice

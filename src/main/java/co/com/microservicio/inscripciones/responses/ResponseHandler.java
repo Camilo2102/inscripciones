@@ -1,4 +1,4 @@
-package com.example.tallerelectiva.responses;
+package co.com.microservicio.inscripciones.responses;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
