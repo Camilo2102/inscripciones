@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class EventResponseDTO {
+public class ListResponseDTO {
     private String message;
     private HttpStatus status;
-    private EventDTO data;
+    private List<EventDTO> data;
 }
