@@ -1,5 +1,6 @@
 package co.com.microservicio.inscripciones.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,6 @@ public class AssistantDTO {
 
     private String email;
 
+    @JsonIgnore
     private EventDTO event;
 }

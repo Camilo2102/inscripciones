@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ListResponseDTO {
+public class ListEventResponseDTO {
     private String message;
     private HttpStatus status;
     private List<EventDTO> data;

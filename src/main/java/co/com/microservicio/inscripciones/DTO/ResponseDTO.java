@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 @Getter
 @Setter
-public class EventResponseDTO {
+public class ResponseDTO {
     private String message;
     private HttpStatus status;
-    private EventDTO data;
+    private Object data;
 }

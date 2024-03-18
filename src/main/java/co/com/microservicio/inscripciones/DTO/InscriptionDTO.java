@@ -11,6 +11,6 @@ import java.math.BigDecimal;
 @Builder
 public class InscriptionDTO {
     EventDTO event;
-    BigDecimal totalQuotAs;
+    BigDecimal totalQuotas;
     BigDecimal actualQuotas;
 }

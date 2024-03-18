@@ -1,12 +1,10 @@
 package co.com.microservicio.inscripciones.services;
 
-import co.com.microservicio.inscripciones.DTO.AssistantDTO;
-import co.com.microservicio.inscripciones.DTO.EventDTO;
-import co.com.microservicio.inscripciones.DTO.InscriptionDTO;
-import co.com.microservicio.inscripciones.DTO.ResponseDTO;
+import co.com.microservicio.inscripciones.DTO.*;
 import co.com.microservicio.inscripciones.exeptions.HttpException;
 import co.com.microservicio.inscripciones.models.Inscription;
 import co.com.microservicio.inscripciones.repository.InscriptionRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -24,6 +22,7 @@ public class InscriptionService {
 
     private final WebClient.Builder webClientBuilder;
     private final InscriptionRepository inscriptionRepository;
+    private final ObjectMapper mapper;
 
     @Value("${base-url}")
     private String baseUrl;
@@ -33,14 +32,14 @@ public class InscriptionService {
     }
 
     public List<InscriptionDTO> getInscriptions() {
-        ResponseDTO result = this.webClientBuilder.build()
+        ListEventResponseDTO result = this.webClientBuilder.build()
                 .get()
-                .uri(baseUrl + "/event")
+                .uri(baseUrl + "event")
                 .retrieve()
-                .bodyToMono(ResponseDTO.class)
+                .bodyToMono(ListEventResponseDTO.class)
                 .block();
 
-        List<EventDTO> events = (List<EventDTO>) result.getData();
+        List<EventDTO> events = result.getData();
 
 
         List<InscriptionDTO> inscriptions = new ArrayList<>();
@@ -49,7 +48,7 @@ public class InscriptionService {
             Inscription inscription = this.inscriptionRepository.findInscriptionByEventId(event.getId());
             inscriptions.add(InscriptionDTO.builder()
                     .event(event)
-                    .totalQuotAs(inscription.getTotalQuotas())
+                    .totalQuotas(inscription.getTotalQuotas())
                     .actualQuotas(inscription.getActualQuotas())
                     .build());
         }
@@ -113,7 +112,7 @@ public class InscriptionService {
     private void updateAssistantInfo(AssistantDTO assistant, Integer eventId) throws HttpException {
         ResponseDTO result = this.webClientBuilder.build()
                 .put()
-                .uri(baseUrl + "/")
+                .uri(baseUrl + "event" + assistant.getId())
                 .bodyValue(assistant)
                 .retrieve()
                 .bodyToMono(ResponseDTO.class)
@@ -130,27 +129,33 @@ public class InscriptionService {
     private AssistantDTO getAssistantById(Integer id) throws HttpException {
         ResponseDTO result = this.webClientBuilder.build()
                 .get()
-                .uri(baseUrl + "/assistant/" + id)
+                .uri(baseUrl + "assistant/" + id)
                 .retrieve()
                 .bodyToMono(ResponseDTO.class)
                 .block();
 
-        if (result == null) throw new HttpException("Not found", HttpStatus.NOT_FOUND);
+        try {
+            AssistantDTO assistant = mapper.convertValue(result.getData(), AssistantDTO.class);
 
-        return (AssistantDTO) result.getData();
+            if (assistant == null) throw new HttpException("Not found", HttpStatus.NOT_FOUND);
+
+            return (AssistantDTO) result.getData();
+        }catch (Exception e ){
+            throw new HttpException("Not found", HttpStatus.NOT_FOUND);
+        }
     }
 
     private EventDTO getEventById(Integer id) throws HttpException {
         ResponseDTO result = this.webClientBuilder.build()
                 .get()
-                .uri(baseUrl + "/event/" + id)
+                .uri(baseUrl + "event/" + id)
                 .retrieve()
                 .bodyToMono(ResponseDTO.class)
                 .block();
 
         if (result == null) throw new HttpException("Not found", HttpStatus.NOT_FOUND);
 
-        return (EventDTO) result.getData();
+        return mapper.convertValue(result.getData(), EventDTO.class) ;
     }
 
 
