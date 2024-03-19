@@ -31,10 +31,11 @@ public class InscriptionService {
     @Value("${base-url}")
     private String baseUrl;
 
-    public List<AssistantDTO> getAssistantListFromEventId(Integer id) throws HttpException {
-        return null;
-    }
-
+    /**
+     * Obtiene una lista de todas las inscripciones, se trae del microservicio de eventos.
+     *
+     * @return Lista de todas las inscripciones.
+     */
     public List<InscriptionDTO> getInscriptions() {
         ListEventResponseDTO result = this.webClientBuilder.build()
                 .get()
@@ -62,6 +63,9 @@ public class InscriptionService {
     }
 
 
+    /**
+     * Recarga los eventos obtenidos desde el servicio externo y los guarda en la base de datos local.
+     */
     public void reloadEvents(){
         ListEventResponseDTO result = this.webClientBuilder.build()
                 .get()
@@ -75,7 +79,11 @@ public class InscriptionService {
         this.multipleSaveNewEvents(events);
     }
 
-
+    /**
+     * Guarda nuevos eventos en la base de datos local.
+     *
+     * @param events Lista de eventos a guardar.
+     */
     public void multipleSaveNewEvents(List<EventDTO> events) {
         List<Inscription> inscriptions = new ArrayList<>();
         for (EventDTO event : events) {
@@ -93,10 +101,13 @@ public class InscriptionService {
         this.inscriptionRepository.saveAll(inscriptions);
     }
 
-    public long countEvents() {
-        return inscriptionRepository.count();
-    }
-
+    /**
+     * Añade un asistente a la inscripción de un evento específico.
+     *
+     * @param eventId El ID del evento al que se desea añadir el asistente.
+     * @param userId El ID del usuario que se desea añadir como asistente al evento.
+     * @return La inscripción actualizada con el nuevo asistente.
+     */
     public Inscription addAssistantInscription(int eventId, int userId) {
         Inscription inscription = this.inscriptionRepository.findInscriptionByEventId(eventId);
 
@@ -113,6 +124,13 @@ public class InscriptionService {
         return this.inscriptionRepository.save(inscription);
     }
 
+    /**
+     * Elimina un asistente de la inscripción de un evento específico.
+     *
+     * @param eventId El ID del evento del que se desea eliminar el asistente.
+     * @param userId El ID del usuario que se desea eliminar como asistente del evento.
+     * @return La inscripción actualizada sin el asistente eliminado.
+     */
     public Inscription deleteAssistantInscription(int eventId, int userId) {
         Inscription inscription = this.inscriptionRepository.findInscriptionByEventId(eventId);
 
