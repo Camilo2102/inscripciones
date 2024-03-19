@@ -9,14 +9,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/inscription")
+
 @RequiredArgsConstructor
+@RestController
+@RequestMapping("/inscription")
 public class InscriptionController {
 
     private final InscriptionService inscriptionService;
 
+
     @GetMapping("/getAssistantByEventId/{id}")
     public ResponseEntity<?> getAssistantByEventId(@PathVariable Integer id) throws HttpException {
+        inscriptionService.reloadEvents();
         return ResponseHandler.generateResponse("Success", HttpStatus.OK, inscriptionService.getAssistantListFromEventId(id));
     }
 
@@ -25,19 +29,14 @@ public class InscriptionController {
         return ResponseHandler.generateResponse("Success", HttpStatus.OK, inscriptionService.getInscriptions());
     }
 
-    @PostMapping("/addAssistantByEventId/{id}")
-    public ResponseEntity<?> addAssistantToEventByEventId(@PathVariable Integer id, @RequestBody AssistantDTO assistantDTO) throws HttpException {
-        return ResponseHandler.generateResponse("signed up", HttpStatus.OK, inscriptionService.addAssistantByEventId(id, assistantDTO));
+    @PostMapping("/addAssistantInscription/{eventId}/{userId}")
+    public ResponseEntity<?> addAssistantInscription(@PathVariable String eventId, @PathVariable String userId) throws HttpException {
+        return ResponseHandler.generateResponse("signed up", HttpStatus.OK, inscriptionService.addAssistantInscription(Integer.parseInt(eventId), Integer.parseInt(userId)));
     }
 
-    @PutMapping("/updateAssistantByEventId/{id}")
-    public ResponseEntity<?> updateAssistantToEventByEventId(@PathVariable Integer id, @RequestBody AssistantDTO assistantDTO) throws HttpException {
-        return ResponseHandler.generateResponse("signed up", HttpStatus.OK, inscriptionService.addAssistantByEventId(id, assistantDTO));
-    }
-
-    @PostMapping("/deleteAssistantByEventId/{id}")
-    public ResponseEntity<?> deleteAssistantToEventByEventId(@PathVariable Integer id, @RequestBody AssistantDTO assistantDTO) throws HttpException {
-        return ResponseHandler.generateResponse("deleted from event", HttpStatus.OK, inscriptionService.deleteAssistantToEventByEvent(id, assistantDTO));
+    @PostMapping("/deleteAssistantInscription/{eventId}/{userId}")
+    public ResponseEntity<?> deleteAssistantToEventByEventId(@PathVariable String eventId, @PathVariable String userId) throws HttpException {
+        return ResponseHandler.generateResponse("deleted from event", HttpStatus.OK, inscriptionService.deleteAssistantInscription(Integer.parseInt(eventId), Integer.parseInt(userId)));
     }
 
 }

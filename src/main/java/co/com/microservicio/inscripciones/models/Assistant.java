@@ -7,38 +7,28 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "inscriptions")
+@Table(name = "assistants")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Inscription {
+public class Assistant {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(nullable = false)
-    private Integer eventId;
+    @Column(unique = true)
+    private int userId;
 
-    @Column(nullable = false)
-    private BigDecimal totalQuotas;
+    @ManyToMany(mappedBy = "assistants")
+    @JsonIgnore
+    private List<Inscription> inscriptions;
 
-    @Column(nullable = false)
-    private BigDecimal actualQuotas;
-
-    @ManyToMany
-    @JoinTable(
-            name = "assistant_inscription",
-            joinColumns = @JoinColumn(name = "inscription_id"),
-            inverseJoinColumns = @JoinColumn(name = "assistant_id")
-    )
-    private List<Assistant> assistants;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -50,5 +40,4 @@ public class Inscription {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonIgnore
     private LocalDateTime updatedAt;
-
 }

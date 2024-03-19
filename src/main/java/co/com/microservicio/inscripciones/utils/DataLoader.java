@@ -26,21 +26,7 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.info("starting");
 
-        ListEventResponseDTO result = this.webClientBuilder.build()
-                .get()
-                .uri(baseUrl + "event")
-                .retrieve()
-                .bodyToMono(ListEventResponseDTO.class)
-                .block();
-
-        List<EventDTO> events = (List<EventDTO>) result.getData();
-
-        if(inscriptionService.countEvents() == events.size()) {
-            log.info("Data already initialized");
-            return;
-        }
-
-        this.inscriptionService.multipleSaveNewEvents(events);
+        inscriptionService.reloadEvents();
 
         log.info("data loaded");
     }

@@ -1,11 +1,13 @@
 package co.com.microservicio.inscripciones.repository;
 
+import co.com.microservicio.inscripciones.models.Assistant;
 import co.com.microservicio.inscripciones.models.Inscription;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface InscriptionRepository extends JpaRepository<Inscription, String> {
+import java.util.List;
 
-    Inscription findInscriptionByEventId(Integer eventId);
+@Repository
+public interface AssistantRepository extends JpaRepository<Assistant, String> {
+    Assistant findByUserId(int userId);
 }

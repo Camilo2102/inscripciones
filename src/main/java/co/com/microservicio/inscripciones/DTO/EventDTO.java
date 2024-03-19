@@ -19,7 +19,7 @@ public class EventDTO {
     private String location;
 
     private String description;
+
     private Integer id_User;
 
-    private List<AssistantDTO> assistants;
 }
